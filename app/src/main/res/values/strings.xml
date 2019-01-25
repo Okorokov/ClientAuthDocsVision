@@ -1,0 +1,7 @@
+<resources>
+<string name="app_name">ClientAuthDocsVision</string>
+<string name="tAdressServer">Адрес сервера</string>
+<string name="tLogin">Логин</string>
+<string name="tPassword">Пароль</string>
+<string name="tIn">ВОЙТИ</string>
+</resources>
