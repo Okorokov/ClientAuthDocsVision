@@ -27,6 +27,14 @@
                 android:layout_margin="8dp"
                 android:src="@drawable/logo_text_2" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/edtAdressServer"
                 android:layout_width="match_parent"
@@ -35,8 +43,10 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="15dp"
                 android:hint="@string/tAdressServer"
+                android:inputType="textUri"
+                android:maxLines="1"
                 android:paddingLeft="10dp"
-                android:text="http://almaz2.digdes.com"
+                android:singleLine="true"
                 android:textColor="@color/colorTv"
                 android:textColorHint="@color/colorTv"
                 android:textSize="24sp"
@@ -44,12 +54,18 @@
                 app:met_floatingLabel="highlight"
                 app:met_floatingLabelPadding="12sp"
                 app:met_floatingLabelTextSize="12sp"
-                app:met_primaryColor="@color/colorTv"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:inputType="textUri"/>
-
-
+                app:met_primaryColor="@color/colorTv" />
+                <ProgressBar
+                    android:id="@+id/pbGetBase"
+                    style="?android:attr/progressBarStyleInverse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/edtAdressServer"
+                    android:layout_alignRight="@id/edtAdressServer"
+                    android:layout_alignTop="@id/edtAdressServer"
+                    android:visibility="gone"/>
+            </RelativeLayout>
+        </LinearLayout>
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/spNameBase"
                 android:layout_width="match_parent"
@@ -121,6 +137,6 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center" />
 
 </LinearLayout>

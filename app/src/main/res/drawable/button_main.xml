@@ -4,4 +4,6 @@
         android:drawable="@drawable/button_custom" />
     <item  android:state_focused="false"
         android:drawable="@drawable/button_custom" />
+    <item  android:state_enabled="true"
+        android:drawable="@drawable/button_custom" />
 </selector>

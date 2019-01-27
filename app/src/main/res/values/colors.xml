@@ -7,4 +7,5 @@
     <color name="colorTvError">#FF0000</color>
     <color name="colorBtnText">#000000</color>
     <color name="colorBtn">#F8BF00</color>
+    <color name="colorBtnDis">#F8BF99</color>
 </resources>

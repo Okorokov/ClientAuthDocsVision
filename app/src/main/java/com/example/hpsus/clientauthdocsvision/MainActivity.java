@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.example.hpsus.clientauthdocsvision.Presenter.MainPresenter;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private MaterialEditText edtLogin;
     private MaterialEditText edtPassword;
     private Button btnIn;
+    private ProgressBar pbGetBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setContentView(R.layout.activity_main);
 
         mPresenter = new MainPresenter(this);
-        mPresenter.onCreate();
 
         sView = (ScrollView) findViewById(R.id.sView);
         llView = (LinearLayout) findViewById(R.id.llView);
@@ -44,51 +46,29 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         edtLogin = (MaterialEditText) findViewById(R.id.edtLogin);
         edtPassword = (MaterialEditText) findViewById(R.id.edtPassword);
         btnIn = (Button) findViewById(R.id.btnIn);
+        pbGetBase = (ProgressBar) findViewById(R.id.pbGetBase);
 
         spNameBase.setAdapter(mPresenter.addAdapter());
 
-        spNameBase.setEnabled(false);
-        edtLogin.setEnabled(false);
-        edtPassword.setEnabled(false);
-        btnIn.setEnabled(false);
+        mPresenter.onCreate();
 
         edtAdressServer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    mPresenter.getSyncMessageInfo();
-                    spNameBase.setEnabled(true);
-                    Log.d(TAG, "no hasFocus");
-                }
+                mPresenter.adrrSerhasFocus(hasFocus, edtAdressServer.getText().toString());
             }
         });
         edtAdressServer.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if(event.getAction() == KeyEvent.ACTION_DOWN &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    mPresenter.getSyncMessageInfo();
-                    spNameBase.setEnabled(true);
-                     Log.d(TAG, "keyCode ok");
-                    return true;
-                }
+                mPresenter.adrrSeronKey(keyCode, event, edtAdressServer.getText().toString());
                 return false;
             }
         });
         spNameBase.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "onItemSelected ok");
-
-                if(position==0){
-                    edtLogin.setEnabled(true);
-                    edtPassword.setEnabled(true);
-                    btnIn.setEnabled(true);
-                }else{
-                    edtLogin.setEnabled(false);
-                    edtPassword.setEnabled(false);
-                    btnIn.setEnabled(false);
-                }
+                mPresenter.setPositionUuid(position, parent.getItemAtPosition(position).toString());
             }
 
             @Override
@@ -99,14 +79,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         btnIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.onBtnInClicked();
+                mPresenter.onBtnInClicked(edtLogin.getText().toString(), edtPassword.getText().toString());
             }
         });
-    }
-
-    @Override
-    public void showText() {
-
     }
 
     @Override
@@ -115,4 +90,41 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mPresenter.onDestroy();
         Log.d(TAG, "onDestroy()");
     }
+
+    @Override
+    public void onAuthResult(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSetEnabled(int setVis, Boolean spNameBaseSE, Boolean edtLoginSE, Boolean edtPasswordSE, Boolean btnInSE) {
+        pbGetBase.setVisibility(setVis);
+        spNameBase.setEnabled(spNameBaseSE);
+        edtLogin.setEnabled(edtLoginSE);
+        edtPassword.setEnabled(edtPasswordSE);
+        btnIn.setEnabled(btnInSE);
+    }
+
+    @Override
+    public void onSetErrorAddrSer(String message) {
+        edtAdressServer.setError(message);
+
+    }
+
+    @Override
+    public void onSetErrorLogin(String message) {
+        edtLogin.setError(message);
+    }
+
+    @Override
+    public void onSetErrorPassword(String message) {
+        edtPassword.setError(message);
+    }
+
+    @Override
+    public void onSetErrorBaseName(String message) {
+        spNameBase.setError(message);
+    }
+
+
 }

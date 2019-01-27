@@ -1,6 +1,5 @@
 package com.example.hpsus.clientauthdocsvision.Retrofit;
 
-import com.example.hpsus.clientauthdocsvision.Model.SyncMessageAuthResult;
 import com.example.hpsus.clientauthdocsvision.Model.SyncMessageResult;
 
 import java.util.List;
@@ -19,5 +18,5 @@ public interface IOpenDocsVisionApi {
 
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("GetAuthMessages")
-    Observable<List<SyncMessageAuthResult>> getSyncMessageAuth(@Body RequestBody message);
+    Observable<List<SyncMessageResult>> getSyncMessageAuth(@Body RequestBody message);
 }
